@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OnlineBookStore.Models;
+using OnlineBookStore.Models.Models;
 
-namespace OnlineBookStore.Data
+
+namespace OnlineBookStore.Data.Data
 {
-    public class ApplicationDbContext: DbContext
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 

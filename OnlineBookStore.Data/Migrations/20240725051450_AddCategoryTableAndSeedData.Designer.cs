@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using OnlineBookStore.Data;
+using OnlineBookStore.Data.Data;
 
 #nullable disable
 
-namespace OnlineBookStore.Migrations
+namespace OnlineBookStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240724091941_seed_category_data")]
-    partial class seed_category_data
+    [Migration("20240725051450_AddCategoryTableAndSeedData")]
+    partial class AddCategoryTableAndSeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace OnlineBookStore.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("OnlineBookStore.Models.Category", b =>
+            modelBuilder.Entity("OnlineBookStore.Models.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -32,12 +32,13 @@ namespace OnlineBookStore.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
 
                     b.HasKey("Id");
 
@@ -47,31 +48,31 @@ namespace OnlineBookStore.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Fiction books",
+                            DisplayOrder = 1,
                             Name = "Fiction"
                         },
                         new
                         {
                             Id = 2,
-                            Description = "Non-Fiction books",
+                            DisplayOrder = 2,
                             Name = "Non-Fiction"
                         },
                         new
                         {
                             Id = 3,
-                            Description = "Science Fiction books",
+                            DisplayOrder = 3,
                             Name = "Science Fiction"
                         },
                         new
                         {
                             Id = 4,
-                            Description = "Fantasy books",
+                            DisplayOrder = 4,
                             Name = "Fantasy"
                         },
                         new
                         {
                             Id = 5,
-                            Description = "Mystery books",
+                            DisplayOrder = 5,
                             Name = "Mystery"
                         });
                 });
