@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace OnlineBookStore.Models.Models
 {
@@ -16,5 +17,8 @@ namespace OnlineBookStore.Models.Models
         [DisplayName("Display Order")]
         [Range(1, 100)]
         public int DisplayOrder { get; set; }
+
+        //Navigation Properties
+        public virtual ICollection<Book> Books { get; set; }
     }
 }

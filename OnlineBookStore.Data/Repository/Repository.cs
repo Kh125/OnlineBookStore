@@ -1,12 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineBookStore.Data.Data;
 using OnlineBookStore.Data.Repository.IRepository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnlineBookStore.Data.Repository
 {
@@ -29,7 +24,7 @@ namespace OnlineBookStore.Data.Repository
         {
             IQueryable<T> query = DbSet;
             query = query.Where(filter);
-            
+
             return query.FirstOrDefault();
         }
 

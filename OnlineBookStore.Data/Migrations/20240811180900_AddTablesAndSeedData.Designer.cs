@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineBookStore.Data.Data;
 
@@ -11,9 +12,11 @@ using OnlineBookStore.Data.Data;
 namespace OnlineBookStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240811180900_AddTablesAndSeedData")]
+    partial class AddTablesAndSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,20 +55,12 @@ namespace OnlineBookStore.Data.Migrations
                     b.Property<DateTime>("PublishedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("RemainingStock")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Stock")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Genre");
 
                     b.ToTable("Books");
 
@@ -79,8 +74,6 @@ namespace OnlineBookStore.Data.Migrations
                             Genre = 2,
                             Price = 9.99m,
                             PublishedDate = new DateTime(2022, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            RemainingStock = 18,
-                            Stock = 20,
                             Title = "Book One"
                         },
                         new
@@ -92,8 +85,6 @@ namespace OnlineBookStore.Data.Migrations
                             Genre = 1,
                             Price = 19.99m,
                             PublishedDate = new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            RemainingStock = 29,
-                            Stock = 30,
                             Title = "Book Two"
                         });
                 });
@@ -178,14 +169,14 @@ namespace OnlineBookStore.Data.Migrations
                         new
                         {
                             Id = 1,
-                            OrderDate = new DateTime(2024, 8, 11, 18, 59, 57, 500, DateTimeKind.Utc).AddTicks(1608),
+                            OrderDate = new DateTime(2024, 8, 11, 18, 8, 58, 158, DateTimeKind.Utc).AddTicks(691),
                             TotalAmount = 19.98m,
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            OrderDate = new DateTime(2024, 8, 11, 18, 59, 57, 500, DateTimeKind.Utc).AddTicks(1613),
+                            OrderDate = new DateTime(2024, 8, 11, 18, 8, 58, 158, DateTimeKind.Utc).AddTicks(696),
                             TotalAmount = 19.99m,
                             UserId = 2
                         });
@@ -300,17 +291,6 @@ namespace OnlineBookStore.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("OnlineBookStore.Models.Models.Book", b =>
-                {
-                    b.HasOne("OnlineBookStore.Models.Models.Category", "Category")
-                        .WithMany("Books")
-                        .HasForeignKey("Genre")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
             modelBuilder.Entity("OnlineBookStore.Models.Models.Order", b =>
                 {
                     b.HasOne("OnlineBookStore.Models.Models.User", "User")
@@ -344,11 +324,6 @@ namespace OnlineBookStore.Data.Migrations
             modelBuilder.Entity("OnlineBookStore.Models.Models.Book", b =>
                 {
                     b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("OnlineBookStore.Models.Models.Category", b =>
-                {
-                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("OnlineBookStore.Models.Models.Order", b =>

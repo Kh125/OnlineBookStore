@@ -1,6 +1,5 @@
 ﻿using OnlineBookStore.Data.Data;
 using OnlineBookStore.Data.Repository.IRepository;
-using OnlineBookStore.Models.Models;
 
 namespace OnlineBookStore.Data.Repository
 {
@@ -8,10 +7,16 @@ namespace OnlineBookStore.Data.Repository
     {
         private ApplicationDbContext _db;
         public ICategoryRepository CategoryRepository { get; private set; }
+        public IUserRepository UserRepository { get; private set; }
+
+        public IBookRepository BookRepository { get; private set; }
+
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
             CategoryRepository = new CategoryRepository(_db);
+            UserRepository = new UserRepository(_db);
+            BookRepository = new BookRepository(_db);
         }
         
         public void Save()
