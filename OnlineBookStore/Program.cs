@@ -2,6 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using OnlineBookStore.Data.Data;
 using OnlineBookStore.Data.Repository;
 using OnlineBookStore.Data.Repository.IRepository;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using OnlineBookStore.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +15,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
+builder.Services.ConfigureApplicationCookie(option =>
+{
+    option.LoginPath = $"/Identity/Account/Login";
+    option.LogoutPath = $"/Identity/Account/Logout";
+    option.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+});
+
+builder.Services.AddRazorPages();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -31,8 +44,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",

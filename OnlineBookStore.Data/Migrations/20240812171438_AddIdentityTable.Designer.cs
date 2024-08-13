@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineBookStore.Data.Data;
 
@@ -11,9 +12,11 @@ using OnlineBookStore.Data.Data;
 namespace OnlineBookStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240812171438_AddIdentityTable")]
+    partial class AddIdentityTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,11 +88,6 @@ namespace OnlineBookStore.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("varchar(21)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
@@ -140,10 +138,6 @@ namespace OnlineBookStore.Data.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator().HasValue("IdentityUser");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -368,9 +362,6 @@ namespace OnlineBookStore.Data.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("varchar(255)");
-
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime(6)");
 
@@ -382,8 +373,6 @@ namespace OnlineBookStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
@@ -392,14 +381,14 @@ namespace OnlineBookStore.Data.Migrations
                         new
                         {
                             Id = 1,
-                            OrderDate = new DateTime(2024, 8, 12, 17, 21, 41, 307, DateTimeKind.Utc).AddTicks(1448),
+                            OrderDate = new DateTime(2024, 8, 12, 17, 14, 36, 601, DateTimeKind.Utc).AddTicks(4192),
                             TotalAmount = 19.98m,
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            OrderDate = new DateTime(2024, 8, 12, 17, 21, 41, 307, DateTimeKind.Utc).AddTicks(1454),
+                            OrderDate = new DateTime(2024, 8, 12, 17, 14, 36, 601, DateTimeKind.Utc).AddTicks(4195),
                             TotalAmount = 19.99m,
                             UserId = 2
                         });
@@ -514,28 +503,6 @@ namespace OnlineBookStore.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("OnlineBookStore.Models.Models.ApplicationUser", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("City")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("Name")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PostalCode")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("State")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Street")
-                        .HasColumnType("longtext");
-
-                    b.HasDiscriminator().HasValue("ApplicationUser");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -600,10 +567,6 @@ namespace OnlineBookStore.Data.Migrations
 
             modelBuilder.Entity("OnlineBookStore.Models.Models.Order", b =>
                 {
-                    b.HasOne("OnlineBookStore.Models.Models.ApplicationUser", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("OnlineBookStore.Models.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
@@ -648,11 +611,6 @@ namespace OnlineBookStore.Data.Migrations
                 });
 
             modelBuilder.Entity("OnlineBookStore.Models.Models.User", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("OnlineBookStore.Models.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Orders");
                 });

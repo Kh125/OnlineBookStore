@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineBookStore.Data.Repository.IRepository;
 using OnlineBookStore.Models.Models;
+using OnlineBookStore.Utils;
 
 namespace OnlineBookStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -29,12 +32,9 @@ namespace OnlineBookStore.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(Category obj)
         {
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.CategoryRepository.Add(obj);
-                _unitOfWork.Save();
-                TempData["success"] = "The category has been created successfully.";
-            }
+            _unitOfWork.CategoryRepository.Add(obj);
+            _unitOfWork.Save();
+            TempData["success"] = "The category has been created successfully.";
 
             return RedirectToAction("Index");
         }
@@ -59,13 +59,10 @@ namespace OnlineBookStore.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Edit(Category obj)
         {
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.CategoryRepository.Update(obj);
-                _unitOfWork.Save();
-                TempData["success"] = "The category has been updated successfully.";
-                return RedirectToAction("Index");
-            }
+            _unitOfWork.CategoryRepository.Update(obj);
+            _unitOfWork.Save();
+            TempData["success"] = "The category has been updated successfully.";
+            return RedirectToAction("Index");
 
             return View();
         }

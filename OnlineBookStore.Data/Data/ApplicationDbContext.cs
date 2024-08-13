@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OnlineBookStore.Models.Models;
 using System.Text.Json;
 
 
 namespace OnlineBookStore.Data.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -19,8 +21,12 @@ namespace OnlineBookStore.Data.Data
 
         public DbSet<Book> Books { get; set; }
 
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
         override protected void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "Fiction", DisplayOrder = 1 },
                 new Category { Id = 2, Name = "Non-Fiction", DisplayOrder = 2 },
