@@ -42,21 +42,21 @@ OnlineBookStore is an ASP.NET Core 8 MVC web application for managing books and 
 3. Restore dependencies:
 
    ```bash
-   dotnet restore /home/runner/work/OnlineBookStore/OnlineBookStore/OnlineBookStore.sln
+   dotnet restore OnlineBookStore.sln
    ```
 
 4. Apply EF Core migrations:
 
    ```bash
    dotnet ef database update \
-     --project /home/runner/work/OnlineBookStore/OnlineBookStore/OnlineBookStore.Data/OnlineBookStore.Data.csproj \
-     --startup-project /home/runner/work/OnlineBookStore/OnlineBookStore/OnlineBookStore/OnlineBookStore.csproj
+     --project OnlineBookStore.Data/OnlineBookStore.Data.csproj \
+     --startup-project OnlineBookStore/OnlineBookStore.csproj
    ```
 
 5. Run the web app:
 
    ```bash
-   dotnet run --project /home/runner/work/OnlineBookStore/OnlineBookStore/OnlineBookStore/OnlineBookStore.csproj
+   dotnet run --project OnlineBookStore/OnlineBookStore.csproj
    ```
 
 6. Open the URL shown in terminal (typically `https://localhost:xxxx`).
@@ -64,8 +64,8 @@ OnlineBookStore is an ASP.NET Core 8 MVC web application for managing books and 
 ## Build and Test
 
 ```bash
-dotnet build /home/runner/work/OnlineBookStore/OnlineBookStore/OnlineBookStore.sln
-dotnet test /home/runner/work/OnlineBookStore/OnlineBookStore/OnlineBookStore.sln
+dotnet build OnlineBookStore.sln
+dotnet test OnlineBookStore.sln
 ```
 
 ## Notes
